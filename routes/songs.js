@@ -14,7 +14,24 @@ function songs(app){
         return res.json(users)
     })
 
-    // implementar POST- PUT - DELETE de la API
+    router.post("/",async (req,res)=>{
+
+        const users = await songsService.create(req.body)
+        return res.json(users)
+    })
+
+    router.put("/:id",async (req,res)=>{
+        const id = req.params.id
+        const users = await songsService.update(id,req.body)
+        return res.json(users)
+    })
+
+    router.delete("/:id",async (req,res)=>{
+        const id = req.params.id
+        const users = await songsService.delete(id)
+        return res.json(users)
+    })
+
 }
 
 

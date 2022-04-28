@@ -2,6 +2,8 @@ const express = require("express")
 const port = 4000
 const app = express()
 
+app.use(express.json())
+
 //Importando routers
 const songs = require("./routes/songs")
 

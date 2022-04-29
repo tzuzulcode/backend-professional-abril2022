@@ -6,8 +6,10 @@ app.use(express.json())
 
 //Importando routers
 const songs = require("./routes/songs")
+const auth = require("./routes/auth")
 
 songs(app)
+auth(app)
 
 app.get("/",(req,res)=>{
     return res.json({

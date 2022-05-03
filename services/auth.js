@@ -37,6 +37,8 @@ class Auth{
 
         if(user){
             const token = this.createToken(user)
+            
+            console.log(token)
             return {
                 logged:true,
                 data:user,

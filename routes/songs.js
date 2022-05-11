@@ -1,4 +1,5 @@
 const express = require("express")
+const auth = require("../middleware/auth")
 const SongsService = require("../services/songs")
 
 function songs(app){
@@ -8,7 +9,7 @@ function songs(app){
     const songsService = new SongsService()
 
 
-    router.get("/",async (req,res)=>{
+    router.get("/", auth, async (req,res)=>{
 
         const users = await songsService.getAll()
         return res.json(users)

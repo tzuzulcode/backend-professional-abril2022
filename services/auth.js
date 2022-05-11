@@ -50,8 +50,6 @@ class Auth{
             logged:false,
             message:"Credenciales incorrectas. Verificar."
         }
-        
-        //Investigar HTTP Only Cookies
 
     }
 

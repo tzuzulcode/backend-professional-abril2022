@@ -16,4 +16,4 @@ COPY ./prisma ./prisma
 
 COPY .env .
 
-CMD ["npm","run","start"]
+CMD ["npm","run","dev"]

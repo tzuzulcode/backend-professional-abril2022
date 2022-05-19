@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: users
+spec:
+  containers:
+    - name: users
+      image: users-micro
+      ports:
+        - containerPort: 4000
+          name: http
+          protocol: TCP

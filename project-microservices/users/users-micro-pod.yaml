@@ -6,7 +6,23 @@ spec:
   containers:
     - name: users
       image: users-micro
+      imagePullPolicy: Never
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+        limits:
+          cpu: "1000m"
+          memory: "1024Mi"
       ports:
         - containerPort: 4000
           name: http
           protocol: TCP
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 4000
+        initialDelaySeconds: 5
+        timeoutSeconds: 1 # No debe durar la prueba más de un segundo
+        periodSeconds: 10 # El periodo de tiempo
+        failureThreshold: 3

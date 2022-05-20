@@ -2,17 +2,17 @@ FROM node
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm install
 
-COPY ./src ./src
+COPY ./src ./src/
 
 EXPOSE 4000
 
 RUN npx prisma init
 
-COPY ./prisma ./prisma
+COPY ./prisma ./prisma/
 
 COPY .env .
 

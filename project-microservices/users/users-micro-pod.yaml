@@ -4,20 +4,40 @@ metadata:
   name: users
 spec:
   containers:
+    - name: postgres
+      image: postgres
+      imagePullPolicy: IfNotPresent #Descargar la imagen si no esta en local
+      env:
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "12345"
+        - name: POSTGRES_DB
+          value: users
+      resources:
+        limits:
+          cpu: "500m"
+          memory: "1024Mi"
+      ports:
+        - containerPort: 5432
+          protocol: TCP
     - name: users
       image: users-micro
       imagePullPolicy: Never
       resources:
         requests:
-          cpu: "500m"
+          cpu: "250m"
           memory: "128Mi"
         limits:
-          cpu: "1000m"
+          cpu: "500m"
           memory: "1024Mi"
       ports:
         - containerPort: 4000
           name: http
           protocol: TCP
+      env:
+        - name: PORT
+          value: "4000"
       livenessProbe:
         httpGet:
           path: /health

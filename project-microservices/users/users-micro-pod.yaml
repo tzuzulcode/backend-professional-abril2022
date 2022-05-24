@@ -21,6 +21,9 @@ spec:
       ports:
         - containerPort: 5432
           protocol: TCP
+      # volumeMounts:
+      #   - mountPath: "/data"
+      #     name: "db-data"
     - name: users
       image: users-micro
       imagePullPolicy: Never
@@ -46,3 +49,7 @@ spec:
         timeoutSeconds: 1 # No debe durar la prueba más de un segundo
         periodSeconds: 10 # El periodo de tiempo
         failureThreshold: 3
+  # volumes:
+  #   - name: "db-data"
+  #     hostPath:
+  #       path: "/data/microservices/users"

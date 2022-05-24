@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"npx prisma migrate dev -it && node ./src/index.js",
-    "start": "npx prisma migrate deploy && npx prisma generate && node ./src/index.js"
+    "dev":"npx prisma migrate dev && node ./src/index.js",
+    "start": "prisma migrate dev --create-only && npx prisma migrate deploy && npx prisma generate && node ./src/index.js"
   },
   "keywords": [],
   "author": "",

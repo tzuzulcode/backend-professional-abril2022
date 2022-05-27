@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users
+  labels:
+    micro: users
+spec:
+  selector:
+    matchLabels:
+      micro: users
+  replicas: 3
+  template:
+    # Definición del POD
+    metadata:
+      name: users
+      labels:
+        micro: users
+    spec:
+      containers:
+        - name: postgres
+          image: postgres
+          imagePullPolicy: IfNotPresent #Descargar la imagen si no esta en local
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "12345"
+            - name: POSTGRES_DB
+              value: "users"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          # volumeMounts:
+          #   - mountPath: "/data"
+          #     name: "db-data"
+        - name: users
+          image: users-micro
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "1024Mi"
+          ports:
+            - containerPort: 4000
+              name: http
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "4000"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: 25
+            timeoutSeconds: 1 # No debe durar la prueba más de un segundo
+            periodSeconds: 15 # El periodo de tiempo
+            failureThreshold: 3
+      # volumes:
+      #   - name: "db-data"
+      #     hostPath:
+      #       path: "/data/microservices/users"

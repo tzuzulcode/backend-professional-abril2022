@@ -13,7 +13,7 @@ spec:
         - name: POSTGRES_PASSWORD
           value: "12345"
         - name: POSTGRES_DB
-          value: users
+          value: "users"
       resources:
         limits:
           cpu: "500m"
@@ -45,9 +45,9 @@ spec:
         httpGet:
           path: /health
           port: 4000
-        initialDelaySeconds: 5
+        initialDelaySeconds: 25
         timeoutSeconds: 1 # No debe durar la prueba más de un segundo
-        periodSeconds: 10 # El periodo de tiempo
+        periodSeconds: 15 # El periodo de tiempo
         failureThreshold: 3
   # volumes:
   #   - name: "db-data"

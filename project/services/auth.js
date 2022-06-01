@@ -53,6 +53,22 @@ class Auth{
 
     }
 
+
+    validate(token){
+        try {
+            const data = jwt.verify(token,"12345")
+            return {
+                success:true,
+                data
+            }
+        } catch ({message}) {
+            return {
+                success:false,
+                message
+            }
+        }
+    }
+
     createToken(data){
         const token = jwt.sign(data,"12345")
 

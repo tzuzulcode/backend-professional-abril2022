@@ -29,6 +29,14 @@ function auth(app){
             secure:false
         }).json(user)
     })
+
+    router.post("/validate",(req,res)=>{
+        const {token} = req.body
+
+        const result = authService.validate(token)
+
+        return res.status(result.success?200:400).json(result)
+    })
 }
 
 module.exports = auth

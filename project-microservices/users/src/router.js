@@ -11,7 +11,7 @@ router.get("/", async (req,res)=>{
     return res.json(users)
 })
 
-router.get("/", async (req,res)=>{
+router.get("/byEmail", async (req,res)=>{
     const user = await usersMicroServ.getByEmail(req.body.email)
     return res.json(user)
 })
@@ -29,7 +29,7 @@ router.put("/:id", async (req,res)=>{
 })
 
 router.delete("/:id", async (req,res)=>{
-    const user = await usersMicroServ.getAll(req.params.id,req.body)
+    const user = await usersMicroServ.delete(req.params.id)
 
     return res.json(user)
 })

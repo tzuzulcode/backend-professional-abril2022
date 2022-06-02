@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken")
 
 const axios = require("axios")
 
-const client = new axios.Axios({
-    baseURL:"http://localhost:4001"
+const client = axios.default.create({
+    baseURL:"http://users"
 })
 
 class Auth{
@@ -18,8 +18,6 @@ class Auth{
                 email
             }
         })
-
-        // Try Catch
 
         if(user && this.compare(password,user.password)){
             delete user.password
@@ -42,28 +40,37 @@ class Auth{
 
     async signup(credentials){
         // const userService = new Users()
-        console.log(credentials)
         credentials.password = await this.encrypt(credentials.password)
         // const user = await userService.create(credentials)
-        const user = await client.post("/",
-            credentials
-        )
+        try {
+            const {data:user} = await client.post("/",
+                credentials
+            )
 
-        if(user){
-            const token = this.createToken(user)
-            
-            console.log(token)
+            delete user.password
+
+            if(user){
+                const token = this.createToken(user)
+                return {
+                    logged:true,
+                    data:user,
+                    token
+                }
+            }
+    
             return {
-                logged:true,
-                data:user,
-                token
+                logged:false,
+                message:"Credenciales incorrectas. Verificar."
+            }
+        } catch (error) {
+            console.log(error)
+            return {
+                logged:false,
+                message:"Ocurrió un error"
             }
         }
 
-        return {
-            logged:false,
-            message:"Credenciales incorrectas. Verificar."
-        }
+        
 
     }
 
@@ -71,13 +78,14 @@ class Auth{
     validate(token){
         try {
             const data = jwt.verify(token,"12345")
+            delete data.iat
             return {
-                success:true,
+                logged:true,
                 data
             }
         } catch ({message}) {
             return {
-                success:false,
+                logged:false,
                 message
             }
         }

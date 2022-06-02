@@ -1,44 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users
+  name: auth
   labels:
-    micro: users
+    micro: auth
 spec:
   selector:
     matchLabels:
-      micro: users
-  replicas: 3
+      micro: auth
+  replicas: 2
   template:
     # Definición del POD
     metadata:
-      name: users
+      name: auth
       labels:
-        micro: users
+        micro: auth
     spec:
       containers:
-        - name: postgres
-          image: postgres
-          imagePullPolicy: IfNotPresent #Descargar la imagen si no esta en local
-          env:
-            - name: POSTGRES_USER
-              value: "postgres"
-            - name: POSTGRES_PASSWORD
-              value: "12345"
-            - name: POSTGRES_DB
-              value: "users"
-          resources:
-            limits:
-              cpu: "500m"
-              memory: "1024Mi"
-          ports:
-            - containerPort: 5432
-              protocol: TCP
-          # volumeMounts:
-          #   - mountPath: "/data"
-          #     name: "db-data"
-        - name: users
-          image: users-micro/v1.0
+        - name: auth
+          image: auth-micro/v1.1
           imagePullPolicy: Never
           resources:
             requests:
@@ -70,7 +50,3 @@ spec:
             timeoutSeconds: 1 # No debe durar la prueba más de un segundo
             periodSeconds: 2 # El periodo de tiempo
             failureThreshold: 3
-      # volumes:
-      #   - name: "db-data"
-      #     hostPath:
-      #       path: "/data/microservices/users"

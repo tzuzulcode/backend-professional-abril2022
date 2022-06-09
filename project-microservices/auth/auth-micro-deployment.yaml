@@ -46,7 +46,7 @@ spec:
             httpGet:
               path: /health
               port: 4000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 25
             timeoutSeconds: 1 # No debe durar la prueba más de un segundo
             periodSeconds: 2 # El periodo de tiempo
             failureThreshold: 3

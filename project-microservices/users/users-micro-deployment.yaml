@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       micro: users
-  replicas: 3
+  replicas: 1
   template:
     # Definición del POD
     metadata:
@@ -16,6 +16,7 @@ spec:
       labels:
         micro: users
     spec:
+      #restartPolicy: Never
       containers:
         - name: postgres
           image: postgres
@@ -29,8 +30,8 @@ spec:
               value: "users"
           resources:
             limits:
-              cpu: "500m"
-              memory: "1024Mi"
+              cpu: "125m"
+              memory: "512Mi"
           ports:
             - containerPort: 5432
               protocol: TCP
@@ -38,14 +39,14 @@ spec:
           #   - mountPath: "/data"
           #     name: "db-data"
         - name: users
-          image: users-micro/v1.0
-          imagePullPolicy: Never
+          image: gcr.io/backendadvancedtzuzulcode/microservices/users/v1.3
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
-              cpu: "250m"
+              cpu: "125m"
               memory: "128Mi"
             limits:
-              cpu: "500m"
+              cpu: "125m"
               memory: "1024Mi"
           ports:
             - containerPort: 4000
@@ -66,7 +67,7 @@ spec:
             httpGet:
               path: /health
               port: 4000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 25
             timeoutSeconds: 1 # No debe durar la prueba más de un segundo
             periodSeconds: 2 # El periodo de tiempo
             failureThreshold: 3

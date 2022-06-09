@@ -16,4 +16,6 @@ COPY ./prisma ./prisma/
 
 COPY .env .
 
+RUN npx prisma generate
+
 CMD ["npm","run","start"]

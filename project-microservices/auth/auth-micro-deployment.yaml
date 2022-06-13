@@ -18,8 +18,8 @@ spec:
     spec:
       containers:
         - name: auth
-          image: auth-micro/v1.2
-          imagePullPolicy: Never
+          image: gcr.io/backendadvancedtzuzulcode/microservices/auth/v1.0
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               cpu: "250m"

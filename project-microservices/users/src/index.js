@@ -11,7 +11,7 @@ app.use(cors({
 }))
 
 app.use(express.json())
-app.use(router)
+app.use("/api/users",router)
 
 app.get("/health",(req,res)=>{
     return res.send("OK")

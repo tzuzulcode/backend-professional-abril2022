@@ -39,7 +39,7 @@ spec:
           #   - mountPath: "/data"
           #     name: "db-data"
         - name: users
-          image: gcr.io/backendadvancedtzuzulcode/microservices/users/v1.3
+          image: gcr.io/backendadvancedtzuzulcode/microservices/users/v1.5
           imagePullPolicy: IfNotPresent
           resources:
             requests:

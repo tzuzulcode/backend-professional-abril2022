@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 const axios = require("axios")
 
 const client = axios.default.create({
-    baseURL:"http://users:4000"
+    baseURL:"http://users:4000/api/users"
 })
 
 class Auth{

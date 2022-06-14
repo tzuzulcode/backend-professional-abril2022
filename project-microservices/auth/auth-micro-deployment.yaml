@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: gcr.io/backendadvancedtzuzulcode/microservices/auth/v1.0
+          image: gcr.io/backendadvancedtzuzulcode/microservices/auth/v1.1
           imagePullPolicy: IfNotPresent
           resources:
             requests:

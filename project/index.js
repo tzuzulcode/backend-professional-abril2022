@@ -12,9 +12,11 @@ app.use(cookie())
 const songs = require("./routes/songs")
 const playlists = require("./routes/playlist")
 const auth = require("./routes/auth")
+const stream = require("./routes/stream")
 
 songs(app)
 auth(app)
+stream(app)
 playlists(app)
 
 app.get("/",(req,res)=>{

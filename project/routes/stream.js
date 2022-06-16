@@ -1,22 +1,17 @@
 const {Router} = require("express")
-const {URLSearchParams} = require("url")
-const qs = require("querystring")
-
+const { readFileStream } = require("../libs/files")
+const Streamming = require("../services/streamming")
 
 function stream(app){
     const router = Router()
+    const streamming = new Streamming()
     app.use("/stream",router)
 
     router.post("/",(req,res)=>{
-        // let body
-        req.on("data",data=>{
-            console.log(data)
-            // body+=data
-        })
-        // req.on("end",()=>{
-        //     const post = qs.parse(body)
-        //     console.log(post)
-        // })
+
+        const bb = readFileStream(req,streamming.uploadFile)
+
+        req.pipe(bb)
         return res.json({
             success:true
         })

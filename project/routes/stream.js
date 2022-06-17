@@ -7,6 +7,10 @@ function stream(app){
     const streamming = new Streamming()
     app.use("/stream",router)
 
+    router.get("/:fileName",(req,res)=>{
+        streamming.downloadFile(req.params.fileName,res)
+    })
+
     router.post("/",(req,res)=>{
 
         const bb = readFileStream(req,streamming.uploadFile)

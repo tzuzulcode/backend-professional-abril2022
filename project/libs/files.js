@@ -4,7 +4,9 @@ const readFileStream = (req,onFile)=>{
     const bb = busboy({
         headers:req.headers
     })
-    bb.on('file', onFile);
+    bb.on('file', (name,stream,info)=>{
+        onFile(name,stream,info)
+    });
 
 
     return bb

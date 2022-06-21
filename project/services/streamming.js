@@ -19,7 +19,7 @@ class Streamming{
             mimeType
         );
 
-        uploadFile(filename,file)
+        uploadFile(filename,file,mimeType)
     }
 }
 

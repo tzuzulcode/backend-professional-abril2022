@@ -1,20 +1,30 @@
 const {Storage} = require("@google-cloud/storage")
 const { bucketName } = require("../config")
+const fs = require("fs")
 
 const storage = new Storage({
     keyFilename:"credentials.json"
 })
 
-const uploadFile = (fileName, stream)=>{
+const uploadFile = (fileName, stream,contentType)=>{
+    console.log(contentType)
 
     const file = storage.bucket(bucketName).file(fileName)
-    stream.pipe(file.createWriteStream())
-    .on("end",()=>{
-        console.log("Terminó")
-    })
-    .on("error",(error)=>{
+    // stream.pipe(file.createWriteStream({
+    //     metadata:{
+    //         contentType
+    //     }
+    // }))
+    try {
+        stream.pipe(file.createWriteStream({
+            resumable:false,
+            timeout:100000,
+            
+        }))
+    } catch (error) {
         console.log(error)
-    })
+    }
+    
 }
 const downloadFile = (fileName, writableStream)=>{
 
@@ -35,5 +45,6 @@ const downloadFile = (fileName, writableStream)=>{
 
 module.exports = {
     uploadFile,
-    downloadFile
+    downloadFile,
+    storage
 }

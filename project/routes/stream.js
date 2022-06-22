@@ -12,13 +12,7 @@ function stream(app){
     })
 
     router.post("/",(req,res)=>{
-
-        const bb = readFileStream(req,streamming.uploadFile)
-
-        req.pipe(bb)
-        return res.json({
-            success:true
-        })
+        readFileStream(req,res,streamming.uploadFile)
     })
 }
 

@@ -1,29 +1,33 @@
 const {Storage} = require("@google-cloud/storage")
 const { bucketName } = require("../config")
-const fs = require("fs")
+const uuid = require("uuid")
+const path = require("path")
 
 const storage = new Storage({
     keyFilename:"credentials.json"
 })
 
-const uploadFile = (fileName, stream,contentType)=>{
-    console.log(contentType)
+const uploadFile = (fileName, stream)=>{
+    return new Promise((resolve,reject)=>{
+        const newFileName = uuid.v4() + path.extname(fileName)
+        const file = storage.bucket(bucketName).file(newFileName)
 
-    const file = storage.bucket(bucketName).file(fileName)
-    // stream.pipe(file.createWriteStream({
-    //     metadata:{
-    //         contentType
-    //     }
-    // }))
-    try {
-        stream.pipe(file.createWriteStream({
-            resumable:false,
-            timeout:100000,
-            
-        }))
-    } catch (error) {
-        console.log(error)
-    }
+        stream.pipe(file.createWriteStream())
+        .on("error",error=>{
+            console.log(error)
+            reject({
+                success:false,
+                message:"An error ocurred"
+            })
+        })
+        .on("finish",()=>{
+            resolve({
+                success:true,
+                message:"Uploaded successfully",
+                fileName:newFileName
+            })
+        })
+    })
     
 }
 const downloadFile = (fileName, writableStream)=>{

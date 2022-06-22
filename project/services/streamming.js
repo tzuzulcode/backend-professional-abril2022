@@ -10,16 +10,10 @@ class Streamming{
         downloadFile(name,writableStream)
     }
 
-    uploadFile(name, file, info){
-        const { filename, encoding, mimeType } = info;
-        console.log(
-            `File [${name}]: filename: %j, encoding: %j, mimeType: %j`,
-            filename,
-            encoding,
-            mimeType
-        );
+    async uploadFile(file, info){
+        const { filename } = info;
 
-        uploadFile(filename,file,mimeType)
+        return await uploadFile(filename,file)
     }
 }
 

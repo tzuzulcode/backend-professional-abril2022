@@ -2,34 +2,32 @@ const busboy = require('busboy');
 const { bucketName } = require('../config');
 const { storage } = require('./storage');
 
-const readFileStream = (req,onFile)=>{
+const readFileStream = (req,res,onFile)=>{
+
+    let promises = []
+
     const bb = busboy({
         headers:req.headers
     })
-    bb.on('file', (name,stream,info)=>{
-        console.log(name)
-        // onFile(name,stream,info)
-        const writable = storage.bucket(bucketName).file(name).createWriteStream()
-        // stream
-        // .on("finish",()=>{
-        //     console.log("FINISH")
-        // })
-        // .on("error",(error)=>{
-        //     console.log(error)
-        // })
-        // .pipe()
-        console.log(stream.readableLength)
-        let written = 0
-        stream.on("data",(data)=>{
-            writable.write(data,()=>{
-                written += data.length
-                console.log("Written: ",written, "de: ")
-            })
-        })
+    bb.on('file', (_,stream,info)=>{
+        const result = onFile(stream,info)
+        promises.push(result)
     });
 
+    bb.on("error",(error)=>{
+        console.log(error)
+        res.status(500).json({
+            success:false,
+            message:"An error ocurred"
+        })
+    })
 
-    return bb
+    bb.on("finish",async ()=>{
+        const results = await Promise.allSettled(promises)
+        res.status(200).json(results)
+    })
+
+    req.pipe(bb)
 }
 
 // (name, file, info) => {

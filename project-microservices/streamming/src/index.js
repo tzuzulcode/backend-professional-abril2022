@@ -6,9 +6,9 @@ const app = express()
 
 routes(app)
 
-app.get("/",(req,res)=>{
+app.get("/health",(req,res)=>{
     return res.json({
-        hoal:"mundo"
+        hola:"mundo"
     })
 })
 

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stream
+  labels:
+    micro: stream
+spec:
+  selector:
+    matchLabels:
+      micro: stream
+  template:
+    metadata:
+      labels:
+        micro: stream
+    spec:
+      containers:
+      - name: stream
+        image: gcr.io/backendprofessional/microservices/stream/1.2
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4000
+          name: http
+          protocol: TCP
+        volumeMounts:
+          - name: files-disk
+            mountPath: /files
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4000
+          initialDelaySeconds: 25
+          timeoutSeconds: 1 # No debe durar la prueba más de un segundo
+          periodSeconds: 15 # El periodo de tiempo
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4000
+          initialDelaySeconds: 25
+          timeoutSeconds: 1 # No debe durar la prueba más de un segundo
+          periodSeconds: 2 # El periodo de tiempo
+          failureThreshold: 3
+      volumes:
+      - name: files-disk
+        gcePersistentDisk:
+          pdName: files-disk
+          fsType: ext4

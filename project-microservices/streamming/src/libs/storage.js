@@ -2,6 +2,7 @@ const {Storage} = require("@google-cloud/storage")
 const { bucketName } = require("../config")
 const uuid = require("uuid")
 const path = require("path")
+const fs = require("fs")
 
 const storage = new Storage({
     keyFilename:"src/credentials.json"
@@ -10,9 +11,8 @@ const storage = new Storage({
 const uploadFile = (fileName, stream)=>{
     return new Promise((resolve,reject)=>{
         const newFileName = uuid.v4() + path.extname(fileName)
-        const file = storage.bucket(bucketName).file(newFileName)
 
-        stream.pipe(file.createWriteStream())
+        stream.pipe(fs.createWriteStream("./files/"+newFileName))
         .on("error",error=>{
             console.log(error)
             reject({

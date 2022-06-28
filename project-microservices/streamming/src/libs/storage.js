@@ -32,8 +32,8 @@ const uploadFile = (fileName, stream)=>{
 }
 const downloadFile = (fileName, writableStream)=>{
 
-    const file = storage.bucket(bucketName).file(fileName)
-    const fileStream = file.createReadStream()
+    // const file = storage.bucket(bucketName).file(fileName)
+    const fileStream = fs.createReadStream("./files/"+fileName)
     .on("error",(error)=>{
         // if(error.code===404){
 

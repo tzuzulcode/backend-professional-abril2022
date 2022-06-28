@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: stream
-        image: gcr.io/backendprofessional/microservices/stream/1.2
+        image: gcr.io/backendprofessional/microservices/stream/1.4
         resources:
           limits:
             memory: "512Mi"
@@ -26,7 +26,7 @@ spec:
           protocol: TCP
         volumeMounts:
           - name: files-disk
-            mountPath: /files
+            mountPath: "/app/files"
         livenessProbe:
           httpGet:
             path: /health
@@ -44,7 +44,10 @@ spec:
           periodSeconds: 2 # El periodo de tiempo
           failureThreshold: 3
       volumes:
+      # - name: files-disk
+      #   gcePersistentDisk:
+      #     pdName: files-disk
+      #     fsType: ext4
       - name: files-disk
-        gcePersistentDisk:
-          pdName: files-disk
-          fsType: ext4
+        persistentVolumeClaim:
+          claimName: files

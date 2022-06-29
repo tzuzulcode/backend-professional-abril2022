@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: external-service
-subsets:
-  - addresses:
-    - ip: 245.67.23.92
-    ports:
-    - port: 3306
+  name: filestore
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
 # spec:
 #   type: ExternalName
 #   externalName: volumen.misitio.com

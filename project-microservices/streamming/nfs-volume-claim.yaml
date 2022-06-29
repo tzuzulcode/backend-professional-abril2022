@@ -6,8 +6,9 @@ spec:
   resources:
     requests:
       storage: 20Gi
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
   selector:
     matchLabels:
-      name: files-disk
+      volume: "files"

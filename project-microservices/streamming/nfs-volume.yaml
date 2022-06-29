@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: files-disk
+  labels:
+    volume: files
 spec:
   capacity:
     storage: 20Gi
@@ -9,4 +11,4 @@ spec:
     - ReadWriteMany
   nfs:
     path: /files
-    server: 192.168.0.1
+    server: 10.117.220.114

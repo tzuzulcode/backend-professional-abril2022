@@ -9,4 +9,4 @@ spec:
     - ReadWriteMany
   nfs:
     path: /files
-    server: 10.61.219.234
+    server: 10.105.31.226 # IP de Filestore

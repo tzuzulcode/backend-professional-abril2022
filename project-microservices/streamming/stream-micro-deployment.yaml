@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       micro: stream
+  replicas: 5
   template:
     metadata:
       labels:
@@ -25,7 +26,7 @@ spec:
           name: http
           protocol: TCP
         volumeMounts:
-          - name: files-disk
+          - name: filestore-pvc
             mountPath: "/app/files"
         livenessProbe:
           httpGet:
@@ -48,6 +49,12 @@ spec:
       #   gcePersistentDisk:
       #     pdName: files-disk
       #     fsType: ext4
-      - name: files-disk
+      # - name: files-disk
+      #   persistentVolumeClaim:
+      #     claimName: files
+      # - name: simple-volume
+      #   emptyDir: {}
+      - name: filestore-pvc
         persistentVolumeClaim:
-          claimName: files
+          claimName: filestore-pvc
+          readOnly: false

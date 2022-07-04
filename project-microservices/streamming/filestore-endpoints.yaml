@@ -4,4 +4,4 @@ metadata:
   name: filestore
 subsets:
   - addresses:
-    - ip: 10.117.220.114
+    - ip: 10.61.219.234

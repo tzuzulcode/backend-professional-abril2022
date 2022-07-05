@@ -26,7 +26,7 @@ spec:
           name: http
           protocol: TCP
         volumeMounts:
-          - name: filestore-pvc
+          - name: files-pvc
             mountPath: "/app/files"
         livenessProbe:
           httpGet:
@@ -54,7 +54,7 @@ spec:
       #     claimName: files
       # - name: simple-volume
       #   emptyDir: {}
-      - name: filestore-pvc
+      - name: files-pvc
         persistentVolumeClaim:
-          claimName: filestore-pvc
+          claimName: files-pvc
           readOnly: false

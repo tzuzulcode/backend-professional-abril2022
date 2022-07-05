@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: filestore-pvc
+  name: users-pvc
 spec:
   accessModes:
       - ReadWriteMany
   storageClassName: ""
-  volumeName: filestore-pv
+  volumeName: users-pv
   resources:
     requests:
       storage: 20Gi

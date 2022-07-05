@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: filestore-pv
+  name: files-pv
 spec:
   capacity:
     storage: 20Gi

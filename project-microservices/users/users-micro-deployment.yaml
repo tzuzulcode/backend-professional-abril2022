@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       micro: users
-  replicas: 1
+  replicas: 5
   template:
     # Definición del POD
     metadata:
@@ -32,6 +32,9 @@ spec:
             limits:
               cpu: "125m"
               memory: "512Mi"
+          volumeMounts:
+            - name: users-pvc
+              mountPath: /var/lib/postresql/data
           ports:
             - containerPort: 5432
               protocol: TCP
@@ -71,7 +74,8 @@ spec:
             timeoutSeconds: 1 # No debe durar la prueba más de un segundo
             periodSeconds: 2 # El periodo de tiempo
             failureThreshold: 3
-      # volumes:
-      #   - name: "db-data"
-      #     hostPath:
-      #       path: "/data/microservices/users"
+      volumes:
+        - name: users-pvc
+          persistentVolumeClaim:
+            claimName: users-pvc
+            readOnly: false
